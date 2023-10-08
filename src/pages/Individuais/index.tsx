@@ -159,7 +159,11 @@ export default function Individuais({ worldBest, europaBest, sulamericanoBest }:
 
   return (
     <>
-      <Header imgSrc={capaTheBest as any} imgAlt='Capa The Best' title='Títulos Individuais' />
+      <header>
+        <title>🏅 Títulos Individuais</title>
+      </header>
+
+      <Header imgSrc={capaTheBest as any} imgAlt='Capa The Best' title='Títulos Individuais' width={360} height={100} />
       <Link href={'/Dashboard'} className='absolute top-3 left-3'>
         <FaArrowLeft class='text-white' size={28} />
       </Link>

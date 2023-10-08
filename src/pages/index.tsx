@@ -8,20 +8,26 @@ const inter = Roboto({ subsets: ['latin'], weight: ['100', '300', '500', '900'] 
 
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <div className='flex flex-col justify-center items-center w-full h-[100vh] bg-gray-800 bg-opacity-80'>
-        <span className='text-4xl'>⭐⭐⭐⭐⭐</span>      
-        <h1 className='text-4xl font-bold text-white'>Rumo ao Estrelato</h1>
-        <Image
-          src={img01}
-          alt='Escudo do clube'
-          width={250}
-          height={250}
-          quality={100}
-          className='opacity-80 py-16'        
-        />
-        <Link href={'/Dashboard'} className='bg-green-700 w-[70vw] py-2 rounded-lg text-4xl text-center text-white font-bold border-x-4 border-y-2 border-white'>Carreira</Link>      
+    <>
+      <header>
+        <title>🏆 Rumo ao Estrelato 🏅</title>
+      </header>
+
+      <div className={styles.container}>
+        <div className='flex flex-col justify-center items-center w-full h-[100vh] bg-gray-800 bg-opacity-80'>
+          <span className='text-4xl'>⭐⭐⭐⭐⭐</span>      
+          <h1 className='text-4xl font-bold text-white'>Rumo ao Estrelato</h1>
+          <Image
+            src={img01}
+            alt='Escudo do clube'
+            width={250}
+            height={250}
+            quality={100}
+            className='opacity-80 py-16'        
+          />
+          <Link href={'/Dashboard'} className='bg-green-700 w-[70vw] py-2 rounded-lg text-4xl text-center text-white font-bold border-x-4 border-y-2 border-white'>Carreira</Link>      
+        </div>
       </div>
-    </div>
+    </>
   )
 }

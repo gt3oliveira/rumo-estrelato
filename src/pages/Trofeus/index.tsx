@@ -25,7 +25,7 @@ export default function MeusTrofeus({ infoTitulos }: MeusTrofeusProps) {
 
   const content = infoTitulos.map(item => (
     <>
-      <div key={item.id} className='flex flex-row w-full pb-2'>
+      <div key={item.id} className='flex flex-row w-full py-2'>
         <div className='flex flex-col justify-center items-center w-[50vw]'>
           <Image
             src={item.imgTrofeu}
@@ -62,7 +62,11 @@ export default function MeusTrofeus({ infoTitulos }: MeusTrofeusProps) {
 
   return (
     <>
-      <Header title='Meus trofeus' imgSrc={capa as any} imgAlt='Galeria de Trofeus' />
+      <header>
+        <title>🏆 Meus Trofeus</title>
+      </header>
+
+      <Header title='Meus trofeus' imgSrc={capa as any} imgAlt='Galeria de Trofeus' width={360} height={100} />
       <Link href={'/Dashboard'} className='absolute top-3 left-3'>
         <FaArrowLeft class='text-white' size={28} />
       </Link>

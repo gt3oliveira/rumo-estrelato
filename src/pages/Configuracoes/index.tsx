@@ -73,7 +73,7 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
         <title>⚙ Configurações</title>
       </header>
 
-      <Header imgSrc={imgConfig as any} imgAlt='Configurações' title='Configurações do sistema' />
+      <Header imgSrc={imgConfig as any} imgAlt='Configurações' title='Configurações do sistema' width={360} height={100} />
 
       <Link href={'/Dashboard'} className='absolute top-3 left-3'>
         <FaArrowLeft class='text-white' size={28} />
