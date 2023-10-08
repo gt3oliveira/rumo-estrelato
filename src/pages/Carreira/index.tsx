@@ -19,7 +19,7 @@ export default function Carreira({ infoCups }: CarreiraProps) {
         <title>Minha Carreira</title>
       </header>
 
-      <Header imgSrc={capa as any} imgAlt='Carreira' title='Carreira' width={360} height={100} />
+      <Header imgSrc={capa as any} imgAlt='Carreira' title='Carreira' width={400} height={100} />
       <Link href={'/Dashboard'} className='absolute top-3 left-3'>
         <FaArrowLeft class='text-white' size={28} />
       </Link>

@@ -66,7 +66,7 @@ export default function MeusTrofeus({ infoTitulos }: MeusTrofeusProps) {
         <title>🏆 Meus Trofeus</title>
       </header>
 
-      <Header title='Meus trofeus' imgSrc={capa as any} imgAlt='Galeria de Trofeus' width={360} height={100} />
+      <Header title='Meus trofeus' imgSrc={capa as any} imgAlt='Galeria de Trofeus' width={400} height={100} />
       <Link href={'/Dashboard'} className='absolute top-3 left-3'>
         <FaArrowLeft class='text-white' size={28} />
       </Link>

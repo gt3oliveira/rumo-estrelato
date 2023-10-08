@@ -13,7 +13,7 @@ export default function Dashboard() {
         <title>Gustavo T.</title>
       </header>
 
-      <Header imgSrc={headerImg as any} imgAlt='papel de parede' title='Gustavo T.' width={360} height={100} />
+      <Header imgSrc={headerImg as any} imgAlt='papel de parede' title='Gustavo T.' width={400} height={100} />
 
       <main className='flex flex-col w-full h-[80vh] px-8 pt-20 bg-gradient-to-t from-[#696969] to-[#111]'>
         <Image
