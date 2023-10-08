@@ -356,7 +356,12 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
       camisaTime: camisa,
       anoTitulo: anoTitulo,
       artilheiro: artilheiro,
-      assitencia: assistencia   
+      assitencia: assistencia,
+      created: new Date().toLocaleDateString('pt-br', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      })   
     })
 
     defaultUseStates()
@@ -371,7 +376,12 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
       idCup: idCup,
       name: name,
       escudo: escudo,
-      camisa: camisa
+      camisa: camisa,
+      created: new Date().toLocaleDateString('pt-br', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      }) 
     })    
 
     defaultUseStates()
