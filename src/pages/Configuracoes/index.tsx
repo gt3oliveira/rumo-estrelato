@@ -1,11 +1,12 @@
 import { GetServerSideProps } from 'next';
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useState, useEffect } from 'react'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 import Header from '@/components/Header'
-import { FaArrowLeft, FaInstagram } from 'react-icons/fa6'
+import { FaArrowLeft } from 'react-icons/fa6'
 
-import { db } from '@/services/firebaseConnection';
+import { db, storage } from '@/services/firebaseConnection';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { addDoc, collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 
 import { Accordion, AccordionItem, Input } from '@nextui-org/react'
@@ -31,7 +32,7 @@ type ClubesProps = {
 
 type TrofeuProps = {
   id: string;
-  name: string;  
+  name: string;
   imgTrofeu: string;
 }
 
@@ -50,14 +51,20 @@ interface ConfiguracoesProps {
 export default function Configuracoes({ campeonatosProps, trofeuProps, clubesProps, trofeuIndividualProps }: ConfiguracoesProps) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter()
-
   const defaultTitle = "border-b-1 border-white";
-  const [idCup, setIdCup] = useState('');
-
+  const [imgURL, setImgURL] = useState('')
+  
+  useEffect(() => {
+    if(imgURL !== ''){
+      handleSaveURLImageCapa(imgURL)
+    }
+  }, [imgURL])
+  
   // == REGISTRAR TITULO == == REGISTRAR TITULO == == REGISTRAR TITULO == == REGISTRAR TITULO == == REGISTRAR TITULO ==
+  const [idCup, setIdCup] = useState('');
   const [selectTitulo, setSelectTitulo] = useState<TrofeuProps[]>(trofeuProps || [])
   const [selectTime, setSelectTime] = useState<ClubesProps[]>(clubesProps || [])
-  const [idTrofeu, setIdTrofeu] = useState(''); const [idTime, setIdTime] = useState(''); const [anoTitulo, setAnoTitulo] = useState(''); const [artilheiro, setArtilheiro] = useState(''); const [assistencia, setAssistencia] = useState('')
+  const [idTime, setIdTime] = useState(''); const [anoTitulo, setAnoTitulo] = useState(''); const [artilheiro, setArtilheiro] = useState(''); const [assistencia, setAssistencia] = useState('')
   const [imgTrofeu, setImgTrofeu] = useState(''); const [nameTrofeu, setNameTrofeu] = useState('')
 
   // == REGISTRAR TIME == == REGISTRAR TIME == == REGISTRAR TIME == == REGISTRAR TIME == == REGISTRAR TIME ==
@@ -67,6 +74,42 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
   const [selectIndividuais, setSelectIndividuais] = useState<TrofeuIndividualProps[]>(trofeuIndividualProps || [])
   const [idTituloIndividual, setIdTituloIndividual] = useState('')
 
+  function handleUpload(event: any) {
+    event.preventDefault()
+    let imgURL = ''
+
+    const file = event.target[0]?.files[0]
+    if (!file) return;
+
+    const storageRef = ref(storage, `imagesCapa/${file.name}`)
+    const uploadTask = uploadBytesResumable(storageRef, file)
+
+    uploadTask.on(
+      'state_changed',
+      snapshot => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100        
+      },
+      error => {
+        alert(error)
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(url => {
+          setImgURL(url)
+        })
+      }
+    )
+
+    // handleSaveURLImageCapa(imgURL)
+  }
+
+  async function handleSaveURLImageCapa(imgURL: string) {        
+    await addDoc(collection(db, 'imageCapa'), {      
+      imgURL: imgURL
+    })
+
+    router.push('/Dashboard')
+  }
+
   return (
     <>
       <header>
@@ -75,8 +118,8 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
 
       <Header imgSrc={imgConfig as any} imgAlt='Configurações' title='Configurações do sistema' width={400} height={100} />
 
-      <Link href={'/Dashboard'} className='absolute top-3 left-3'>
-        <FaArrowLeft class='text-white' size={28} />
+      <Link href={'/Dashboard'} className='absolute top-3 left-3 text-white'>
+        <FaArrowLeft size={28} />
       </Link>
 
       <div className='h-[15vh] bg-gradient-to-t from-[#111] to-[#000]' />
@@ -120,7 +163,6 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
                 variant='flat'
                 style={{ color: '#000' }}
                 className='mb-4'
-                onChange={(e) => setIdTrofeu(e.target.value)}
               >
                 {selectTitulo.map((item) => (
                   <SelectItem key={item.id} value={item.id} textValue={item.name} variant='bordered' className='bg-gray-500 text-white p-2' onClick={() => (buscarTimes(), setNameTrofeu(item.name), setImgTrofeu(item.imgTrofeu))}>
@@ -208,7 +250,7 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
           </AccordionItem>
 
           {/* == REGISTRAR TITULOS INDIVIDUAIS == == REGISTRAR TITULOS INDIVIDUAIS == == REGISTRAR TITULOS INDIVIDUAIS == == REGISTRAR TITULOS INDIVIDUAIS == == REGISTRAR TITULOS INDIVIDUAIS == */}
-          <AccordionItem key="3" aria-label="Accordion 3" onClick={() => buscarTimes()}
+          <AccordionItem className={defaultTitle} key="3" aria-label="Accordion 3" onClick={() => buscarTimes()}
             title={<div className='flex flex-row gap-2 text-white'><p className='text-2xl'>🏅</p><p className='text-xl'>Registrar Títulos Individuais</p></div>}
           >
             <form onSubmit={handleSaveIndividuais}>
@@ -220,7 +262,7 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
                 className='mb-4'
                 onChange={(e) => setName(e.target.value)}
               >
-                {selectTime.map((item) => (                                
+                {selectTime.map((item) => (
                   <SelectItem key={item.name} value={item.id} textValue={item.name} variant='bordered' className='bg-gray-500 text-white p-2' onClick={() => (buscarTrofeusIndividuais(), setEscudo(item.escudo), setCamisa(item.camisa))}>
                     <span className='flex flex-row gap-2 text-lg'>
                       <Image
@@ -242,7 +284,7 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
                 variant='flat'
                 style={{ color: '#000' }}
                 className='mb-4'
-                onChange={(e) => setIdTituloIndividual(e.target.value)}                
+                onChange={(e) => setIdTituloIndividual(e.target.value)}
               >
                 {selectIndividuais.map((item) => (
                   <SelectItem key={item.id} value={item.id} textValue={item.name} variant='bordered' className='bg-gray-500 text-white p-2'>
@@ -257,6 +299,16 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
 
               <Button type='submit' size='lg' className=' w-full text-2xl text-white font-medium bg-green-500 mb-4'>Salvar</Button>
             </form>
+          </AccordionItem>
+
+          {/* == SALVAR IMAGEM STORAGE == == SALVAR IMAGEM STORAGE == == SALVAR IMAGEM STORAGE == */}
+          <AccordionItem key="4" aria-label="Accordion 4"
+            title={<div className='flex flex-row gap-2 text-white'><p className='text-2xl'>📸 </p><p className='text-xl'>Upload de Imagem Capa</p></div>}
+          >
+            <form onSubmit={handleUpload}>
+              <input type="file" className='bg-gray-500 mb-4 p-2 text-white font-semibold rounded-xl w-[90vw]' />
+              <Button type='submit' size='lg' className=' w-full text-2xl text-white font-medium bg-green-500 mb-4'>Salvar</Button>
+            </form>            
           </AccordionItem>
         </Accordion>
 
@@ -324,7 +376,7 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
 
   async function buscarTrofeusIndividuais() {
     const individuaisRef = query(collection(db, 'trofeusIndividuais'), orderBy("name", 'asc'))
-    const snapshotIndividuais = await getDocs(individuaisRef)    
+    const snapshotIndividuais = await getDocs(individuaisRef)
 
     let individuais: TrofeuIndividualProps[] = []
     snapshotIndividuais.forEach(doc => {
@@ -337,7 +389,7 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
     setSelectIndividuais(individuais)
   }
 
-  function defaultUseStates(){
+  function defaultUseStates() {
     setIdTime(''); setImgTrofeu(''); setNameTrofeu(''); setName(''); setEscudo('');
     setCamisa(''); setAnoTitulo(''); setArtilheiro(''); setAssistencia('');
     setIdTituloIndividual(''); setIdCup('');
@@ -356,12 +408,7 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
       camisaTime: camisa,
       anoTitulo: anoTitulo,
       artilheiro: artilheiro,
-      assitencia: assistencia,
-      created: new Date().toLocaleDateString('pt-br', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      })   
+      assitencia: assistencia
     })
 
     defaultUseStates()
@@ -376,13 +423,8 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
       idCup: idCup,
       name: name,
       escudo: escudo,
-      camisa: camisa,
-      created: new Date().toLocaleDateString('pt-br', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      }) 
-    })    
+      camisa: camisa
+    })
 
     defaultUseStates()
     router.push('/Dashboard')
@@ -390,8 +432,8 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
 
   // == SALVAR TITULO INDIVIDUAL == == SALVAR TITULO INDIVIDUAL == == SALVAR TITULO INDIVIDUAL == == SALVAR TITULO INDIVIDUAL ==
   async function handleSaveIndividuais(event: FormEvent) {
-    event.preventDefault()  
-    
+    event.preventDefault()
+
     await addDoc(collection(db, 'titulosIndividuais'), {
       nameTime: name,
       escudoTime: escudo,

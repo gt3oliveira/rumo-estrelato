@@ -164,12 +164,12 @@ export default function Individuais({ worldBest, europaBest, sulamericanoBest }:
       </header>
 
       <Header imgSrc={capaTheBest as any} imgAlt='Capa The Best' title='Títulos Individuais' width={400} height={100} />
-      <Link href={'/Dashboard'} className='absolute top-3 left-3'>
-        <FaArrowLeft class='text-white' size={28} />
+      <Link href={'/Dashboard'} className='absolute top-3 left-3 text-white'>
+        <FaArrowLeft size={28} />
       </Link>
 
-      <Link href={'/Trofeus'} className='absolute top-[175px] right-12'>
-        <FaAngleRight class='text-white' size={28} />
+      <Link href={'/Trofeus'} className='absolute top-[175px] right-12 text-white'>
+        <FaAngleRight size={28} />
       </Link>
 
       <div className='h-[15vh] bg-[#040108]' />

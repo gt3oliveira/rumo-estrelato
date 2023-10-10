@@ -67,12 +67,12 @@ export default function MeusTrofeus({ infoTitulos }: MeusTrofeusProps) {
       </header>
 
       <Header title='Meus trofeus' imgSrc={capa as any} imgAlt='Galeria de Trofeus' width={400} height={100} />
-      <Link href={'/Dashboard'} className='absolute top-3 left-3'>
-        <FaArrowLeft class='text-white' size={28} />
+      <Link href={'/Dashboard'} className='absolute top-3 left-3 text-white'>
+        <FaArrowLeft size={28} />
       </Link>
 
-      <Link href={'/Individuais'} className='absolute top-[155px] left-10'>
-        <FaAngleLeft class='text-white' size={28} />
+      <Link href={'/Individuais'} className='absolute top-[155px] left-10 text-white'>
+        <FaAngleLeft size={28} />
       </Link>
 
       <div className='h-[10vh] bg-gradient-to-t from-[#111] to-[#000]' />

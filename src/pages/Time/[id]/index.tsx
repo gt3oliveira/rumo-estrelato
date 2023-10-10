@@ -11,9 +11,10 @@ import { FaAngleLeft, FaArrowLeft } from 'react-icons/fa6'
 interface TimesProps {
   infoTime: InfoTime[];
   infoCup: InfoCups[];
+  imgPlayer: string;
 }
 
-export default function Times({ infoCup, infoTime }: TimesProps) {
+export default function Times({ infoCup, infoTime, imgPlayer }: TimesProps) {
   const [infoTitulos, setInfoTitulos] = useState<InfoTitulos[]>([])
 
   async function buscarTitulos(idTime: string) {
@@ -97,6 +98,15 @@ export default function Times({ infoCup, infoTime }: TimesProps) {
       <div className='h-[10vh] bg-gradient-to-t from-[#111] to-[#080808]' />
 
       <main className='flex flex-col w-full pt-4 px-4 overflow-scroll h-[70vh] bg-gradient-to-t from-[#696969] to-[#111]'>
+        <Image
+          src={imgPlayer}
+          alt='Jogador'
+          width={250}
+          height={100}
+          quality={100}
+          className='absolute bottom-0 right-0 opacity-60'
+        />
+
         {infoTime.map(item => (
           <Accordion>
             <AccordionItem className='border-b-1 border-white' key="1" aria-label="Accordion 1" onClick={() => buscarTitulos(item.id)}
@@ -120,6 +130,7 @@ export default function Times({ infoCup, infoTime }: TimesProps) {
           </Accordion>
         ))}
       </main>
+
     </>
   )
 }
@@ -154,6 +165,16 @@ type InfoTitulos = {
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params as any
+
+  const playerRef = query(collection(db, 'playerTime'))
+  const snapshotPlayer = await getDocs(playerRef)
+
+  let image = ''
+  snapshotPlayer.forEach(item => {
+    if (item.data().idCup === id) {
+      image = item.data().imgPlayer
+    }
+  })
 
   const campeonatosRef = query(collection(db, 'campeonatos'), orderBy("name", 'asc'))
   const snapshotCampeonatos = await getDocs(campeonatosRef)
@@ -190,6 +211,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     props: {
       infoCup: campeonatos,
       infoTime: times,
+      imgPlayer: image,
     }
   }
 }

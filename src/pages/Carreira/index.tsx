@@ -20,8 +20,8 @@ export default function Carreira({ infoCups }: CarreiraProps) {
       </header>
 
       <Header imgSrc={capa as any} imgAlt='Carreira' title='Carreira' width={400} height={100} />
-      <Link href={'/Dashboard'} className='absolute top-3 left-3'>
-        <FaArrowLeft class='text-white' size={28} />
+      <Link href={'/Dashboard'} className='absolute top-3 left-3 text-white'>
+        <FaArrowLeft size={28} />
       </Link>
 
       <div className='h-[10vh] bg-gradient-to-t from-[#111] to-[#000]' />
