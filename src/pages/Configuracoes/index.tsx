@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 import Header from '@/components/Header'
 import { FaArrowLeft } from 'react-icons/fa6'
+import FormatarData from '@/logic/FormatarData';
 
 import { db, storage } from '@/services/firebaseConnection';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
@@ -52,14 +53,19 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const router = useRouter()
   const defaultTitle = "border-b-1 border-white";
-  const [imgURL, setImgURL] = useState('')
-  
+  const [opcao, setOpcao] = useState(0)
+  const [URLPlayerCapa, setURLPlayerCapa] = useState('')
+  const [URLPlayerTime, setURLPlayerTime] = useState('')
+
   useEffect(() => {
-    if(imgURL !== ''){
-      handleSaveURLImageCapa(imgURL)
+    if (URLPlayerCapa !== '') {
+      handleSaveURLPlayerCapa(URLPlayerCapa)
     }
-  }, [imgURL])
-  
+    if (URLPlayerTime !== '') {
+      handleSaveURLPlayerTime(URLPlayerTime)
+    }
+  }, [URLPlayerCapa, URLPlayerTime])
+
   // == REGISTRAR TITULO == == REGISTRAR TITULO == == REGISTRAR TITULO == == REGISTRAR TITULO == == REGISTRAR TITULO ==
   const [idCup, setIdCup] = useState('');
   const [selectTitulo, setSelectTitulo] = useState<TrofeuProps[]>(trofeuProps || [])
@@ -76,35 +82,47 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
 
   function handleUpload(event: any) {
     event.preventDefault()
-    let imgURL = ''
+    let caminhoStorage = ''
 
     const file = event.target[0]?.files[0]
     if (!file) return;
 
-    const storageRef = ref(storage, `imagesCapa/${file.name}`)
+    if (opcao === 4) caminhoStorage = `playerCapa/${file.name}`;
+    if (opcao === 5) caminhoStorage = `playerTime/${file.name}`;
+
+    const storageRef = ref(storage, caminhoStorage)
     const uploadTask = uploadBytesResumable(storageRef, file)
 
     uploadTask.on(
       'state_changed',
       snapshot => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100        
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
       },
       error => {
         alert(error)
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then(url => {
-          setImgURL(url)
+          if(opcao === 4) setURLPlayerCapa(url);
+          if(opcao === 5) setURLPlayerTime(url);
         })
       }
     )
-
-    // handleSaveURLImageCapa(imgURL)
   }
 
-  async function handleSaveURLImageCapa(imgURL: string) {        
-    await addDoc(collection(db, 'imageCapa'), {      
-      imgURL: imgURL
+  async function handleSaveURLPlayerCapa(imgURL: string) {
+    await addDoc(collection(db, 'playerCapa'), {
+      imgPlayer: imgURL,
+      created: FormatarData()
+    })
+
+    router.push('/Dashboard')
+  }
+
+  async function handleSaveURLPlayerTime(imgURL: string) {
+    await addDoc(collection(db, 'playerTime'), {
+      imgPlayer: imgURL,
+      idCup: idCup
     })
 
     router.push('/Dashboard')
@@ -302,13 +320,47 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
           </AccordionItem>
 
           {/* == SALVAR IMAGEM STORAGE == == SALVAR IMAGEM STORAGE == == SALVAR IMAGEM STORAGE == */}
-          <AccordionItem key="4" aria-label="Accordion 4"
-            title={<div className='flex flex-row gap-2 text-white'><p className='text-2xl'>📸 </p><p className='text-xl'>Upload de Imagem Capa</p></div>}
+          <AccordionItem className={defaultTitle} key="4" aria-label="Accordion 4"
+            title={<div className='flex flex-row gap-2 text-white'><p className='text-2xl'>📸 </p><p className='text-xl'>Upload de Player Capa</p></div>}
           >
             <form onSubmit={handleUpload}>
               <input type="file" className='bg-gray-500 mb-4 p-2 text-white font-semibold rounded-xl w-[90vw]' />
-              <Button type='submit' size='lg' className=' w-full text-2xl text-white font-medium bg-green-500 mb-4'>Salvar</Button>
-            </form>            
+              <Button type='submit' onClick={() => setOpcao(4)} size='lg' className=' w-full text-2xl text-white font-medium bg-green-500 mb-4'>Salvar</Button>
+            </form>
+          </AccordionItem>
+
+          {/* == SALVAR IMAGEM STORAGE == == SALVAR IMAGEM STORAGE == == SALVAR IMAGEM STORAGE == */}
+          <AccordionItem key="5" aria-label="Accordion 5"
+            title={<div className='flex flex-row gap-2 text-white'><p className='text-2xl'>📸 </p><p className='text-xl'>Upload de Player Time</p></div>}
+          >
+            <Select
+              label={<p className='text-[#7a7a7a]'>Selecione o campeonato</p>}
+              size='lg'
+              variant='flat'
+              style={{ color: '#000' }}
+              className='mb-4'
+              onChange={(e) => setIdCup(e.target.value)}
+            >
+              {campeonatosProps.map((cup) => (
+                <SelectItem key={cup.id} value={cup.id} textValue={cup.name} variant='bordered' className='bg-gray-500 text-white p-2'>
+                  <span className='flex flex-row gap-2 text-lg'>
+                    <Image
+                      src={cup.logo}
+                      alt={cup.name}
+                      width={30}
+                      height={30}
+                      quality={100}
+                    />
+                    {cup.name}
+                  </span>
+                </SelectItem>
+              ))}
+            </Select>
+
+            <form onSubmit={handleUpload}>
+              <input type="file" className='bg-gray-500 mb-4 p-2 text-white font-semibold rounded-xl w-[90vw]' />
+              <Button type='submit' onClick={() => setOpcao(5)} size='lg' className=' w-full text-2xl text-white font-medium bg-green-500 mb-4'>Salvar</Button>
+            </form>
           </AccordionItem>
         </Accordion>
 
@@ -408,7 +460,7 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
       camisaTime: camisa,
       anoTitulo: anoTitulo,
       artilheiro: artilheiro,
-      assitencia: assistencia
+      assistencia: assistencia
     })
 
     defaultUseStates()

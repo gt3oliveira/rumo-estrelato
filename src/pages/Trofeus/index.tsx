@@ -51,7 +51,7 @@ export default function MeusTrofeus({ infoTitulos }: MeusTrofeusProps) {
             <span className='text-xl text-white mb-2'>{item.anoTitulo}</span>
             <span className='text-white text-5xl font-bold'>{item.camisaTime}</span>
             <span className='text-white'>Gustavo T.</span>
-            <span>{item.artilheiro} {item.assitencia}</span>
+            <span>{item.artilheiro} {item.assistencia}</span>
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@ type InfoTitulos = {
   camisaTime: string;
   anoTitulo: string;
   artilheiro: string;
-  assitencia: string;
+  assistencia: string;
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -115,7 +115,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       imgTrofeu: doc.data().imgTrofeu,
       anoTitulo: doc.data().anoTitulo,
       artilheiro: doc.data().artilheiro,
-      assitencia: doc.data().assitencia
+      assistencia: doc.data().assistencia
     })
   })
 

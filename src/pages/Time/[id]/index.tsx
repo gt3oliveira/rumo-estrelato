@@ -41,9 +41,9 @@ export default function Times({ infoCup, infoTime, imgPlayer }: TimesProps) {
   }
 
   const content = infoTitulos.map(item => (
-    <div className='flex flex-col bg-[#00000053] rounded-2xl mb-4 py-4'>
-      <div key={item.id} className='flex flex-row w-full py-2'>
-        <div className='flex flex-col justify-center items-center w-[50vw]'>
+    <div className='flex flex-col bg-[#00000053] z-10 rounded-2xl mb-4 py-2'>      
+      <div key={item.id} className='flex flex-row justify-around w-full'>
+        <div className='flex flex-col justify-center items-center'>
           <Image
             src={item.imgTrofeu}
             alt={item.nameTrofeu}
@@ -54,25 +54,16 @@ export default function Times({ infoCup, infoTime, imgPlayer }: TimesProps) {
           />
           <span className='pt-2 text-center text-white text-sm'>{item.nameTrofeu}</span>
         </div>
-        <div className='flex flex-col overflow-hidden relative w-[50vw]'>
-          <Image
-            src={item.escudoTime}
-            alt={item.nameTime}
-            width={130}
-            height={130}
-            quality={100}
-            className='absolute z-0 left-20 ml-2 opacity-40'
-          />
+        <div className='flex flex-col overflow-hidden relative'>         
           <div className='flex flex-col items-center z-10'>
-            <span className='text-2xl text-white'>{item.nameTime}</span>
+            <span className='text-2xl text-white'>Ano do título</span>
             <span className='text-xl text-white mb-2'>{item.anoTitulo}</span>
             <span className='text-white text-5xl font-bold'>{item.camisaTime}</span>
             <span className='text-white'>Gustavo T.</span>
-            <span>{item.artilheiro} {item.assistencia}</span>
+            <span className='text-lg'>{item.artilheiro} {item.assistencia}</span>
           </div>
         </div>
       </div>
-      <hr className='w-[60vw] m-auto' />
     </div>
   ))
 
@@ -97,7 +88,7 @@ export default function Times({ infoCup, infoTime, imgPlayer }: TimesProps) {
 
       <div className='h-[10vh] bg-gradient-to-t from-[#111] to-[#080808]' />
 
-      <main className='flex flex-col w-full pt-4 px-4 overflow-scroll h-[70vh] bg-gradient-to-t from-[#696969] to-[#111]'>
+      <main className='flex flex-col w-full pt-4 px-2 overflow-scroll h-[70vh] bg-gradient-to-t from-[#696969] to-[#111]'>
         <Image
           src={imgPlayer}
           alt='Jogador'
@@ -105,11 +96,10 @@ export default function Times({ infoCup, infoTime, imgPlayer }: TimesProps) {
           height={100}
           quality={100}
           className='absolute bottom-0 right-0 opacity-60'
-        />
-
+        />        
         {infoTime.map(item => (
-          <Accordion>
-            <AccordionItem className='border-b-1 border-white' key="1" aria-label="Accordion 1" onClick={() => buscarTitulos(item.id)}
+          <Accordion className='z-10'>
+            <AccordionItem key="1" aria-label="Accordion 1" onClick={() => buscarTitulos(item.id)}
               title={
                 <p className='text-white text-2xl items-center flex flex-row gap-2'>
                   <Image
