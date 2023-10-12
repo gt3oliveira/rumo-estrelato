@@ -7,21 +7,25 @@ import Header from '@/components/Header'
 import { GetServerSideProps } from 'next'
 import { db } from '@/services/firebaseConnection'
 import { query, collection, orderBy, getDocs } from 'firebase/firestore'
+import { FaInstagram } from 'react-icons/fa6'
+import Link from 'next/link'
 
 interface DashboardProps {
   imgPlayer: string;
 }
 
 export default function Dashboard({ imgPlayer }: DashboardProps) {
+  const logoInstagram = <FaInstagram size={20} />
+
   return (
     <>
       <header>
-        <title>Gustavo T.</title>
+        <title>Dashboard</title>
       </header>
 
       <Header imgSrc={headerImg as any} imgAlt='papel de parede' title='Gustavo T.' width={400} height={100} />
 
-      <main className='flex flex-col w-full h-[80vh] px-8 pt-20 bg-gradient-to-t from-[#696969] to-[#111]'>
+      <main className='flex flex-col w-full h-[80vh] px-8 pt-20 pb-4 overflow-scroll bg-gradient-to-t from-[#696969] to-[#111]'>
         <Image
           src={imgPlayer}
           alt='Jogador'
@@ -34,6 +38,10 @@ export default function Dashboard({ imgPlayer }: DashboardProps) {
         <Button linkTo='/Individuais' label='🏆 Galeria de troféus' />
         <Button linkTo='/Carreira' label='⚽ Carreira' />
         <Button linkTo='/Configuracoes' label='⚙ Configurações' />
+        <Link href={'/Instagram'} className='flex flex-row items-center justify-center gap-2 bg-gray-500 mx-4 rounded-lg shadow-md shadow-black active:translate-y-1 active:shadow-none py-2 mb-4 text-2xl text-white text-center font-medium'>
+          <FaInstagram size={28} />
+          <span>Instagram</span>
+        </Link>
       </main>
     </>
   )
