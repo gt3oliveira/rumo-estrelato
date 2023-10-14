@@ -174,7 +174,7 @@ export default function Individuais({ worldBest, europaBest, sulamericanoBest }:
 
       <div className='h-[15vh] bg-[#040108]' />
 
-      <main className='flex flex-col overflow-scroll w-full h-[65vh] bg-gradient-to-t from-[#0D0733] to-[#040108]'>
+      <main className='flex flex-col overflow-scroll pt-4 w-full h-[65vh] bg-gradient-to-t from-[#0D0733] to-[#040108]'>
         <Accordion>
           {/* == MELHOR DO MUNDO == == MELHOR DO MUNDO == == MELHOR DO MUNDO == == MELHOR DO MUNDO == */}
           <AccordionItem className={defaultTitle} key="1" aria-label="Accordion 1"

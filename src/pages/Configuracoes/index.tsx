@@ -142,7 +142,7 @@ export default function Configuracoes({ campeonatosProps, trofeuProps, clubesPro
 
       <div className='h-[15vh] bg-gradient-to-t from-[#111] to-[#000]' />
 
-      <main className='flex flex-col w-full px-2 overflow-scroll h-[65vh] bg-gradient-to-t from-[#696969] to-[#111]'>
+      <main className='flex flex-col w-full px-2 pt-4 overflow-scroll h-[65vh] bg-gradient-to-t from-[#696969] to-[#111]'>
         <Accordion>
           {/* == REGISTRAR TITULO == == REGISTRAR TITULO == == REGISTRAR TITULO == == REGISTRAR TITULO == */}
           <AccordionItem className={defaultTitle} key="1" aria-label="Accordion 1"
