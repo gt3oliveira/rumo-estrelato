@@ -19,13 +19,13 @@ export default function Home() {
           <h1 className='text-4xl font-bold text-white'>Rumo ao Estrelato</h1>
           <Image
             src={img01}
-            alt='Escudo do clube'
+            alt='imagem capa'
             width={250}
             height={250}
             quality={100}
             className='opacity-80 py-16'        
           />
-          <Link href={'/Dashboard'} className='bg-green-700 w-[70vw] py-2 rounded-lg text-4xl text-center text-white font-bold border-x-4 border-y-2 border-white'>Carreira</Link>      
+          <Link href={'/Instagram'} className='bg-green-700 w-[70vw] py-2 rounded-lg text-4xl text-center text-white font-bold border-x-4 border-y-2 border-white'>Carreira</Link>      
         </div>
       </div>
     </>

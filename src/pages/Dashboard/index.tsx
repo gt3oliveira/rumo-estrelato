@@ -1,21 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
-import player01 from '../../../public//assets/images/player01.png'
 import headerImg from '../../../public//assets/images/home_img.png'
-import Button from '@/components/Button'
+import ButtonLink from '@/components/Button'
 import Header from '@/components/Header'
 import { GetServerSideProps } from 'next'
 import { db } from '@/services/firebaseConnection'
 import { query, collection, orderBy, getDocs } from 'firebase/firestore'
 import { FaInstagram } from 'react-icons/fa6'
 import Link from 'next/link'
+import { Button } from '@nextui-org/react'
 
 interface DashboardProps {
   imgPlayer: string;
 }
 
 export default function Dashboard({ imgPlayer }: DashboardProps) {
-  const logoInstagram = <FaInstagram size={20} />
+  const [loading, setLoading] = useState(false)  
 
   return (
     <>
@@ -35,9 +35,9 @@ export default function Dashboard({ imgPlayer }: DashboardProps) {
           className='mx-auto mb-4 shadow-lg shadow-black'
         />
 
-        <Button linkTo='/Individuais' label='🏆 Galeria de troféus' />
-        <Button linkTo='/Carreira' label='⚽ Carreira' />
-        <Button linkTo='/Configuracoes' label='⚙ Configurações' />
+        <ButtonLink linkTo='/Individuais' label='🏆 Galeria de troféus' />
+        <ButtonLink linkTo='/Carreira' label='⚽ Carreira' />
+        <ButtonLink linkTo='/Configuracoes' label='⚙ Configurações' />        
         <Link href={'/Instagram'} className='flex flex-row items-center justify-center gap-2 bg-gray-500 mx-4 rounded-lg shadow-md shadow-black active:translate-y-1 active:shadow-none py-2 mb-4 text-2xl text-white text-center font-medium'>
           <FaInstagram size={28} />
           <span>Instagram</span>

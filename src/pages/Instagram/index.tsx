@@ -38,7 +38,7 @@ export default function Instagram({ infoInstagram, infoPerfil, fotoPerfil, nPubl
               <FaPlus size={24} />
             </Link>
 
-            <Link href={'/Dashboard'} className='text-red-500'>
+            <Link href={'#'} className='text-red-500'>
               <BsArrowBarRight size={32} />
             </Link>
           </div>
@@ -82,6 +82,12 @@ export default function Instagram({ infoInstagram, infoPerfil, fotoPerfil, nPubl
               </Link>            
             </span>
             <span>{item.descSelecao}</span>
+            <span className='flex flex-row gap-1'>
+              Fanpage 
+              <Link href={`/Dashboard`}>
+                <p className='text-blue-500'>🔗gustavo.tavares</p>
+              </Link>            
+            </span>
             <span>{item.descOpcional}</span>
           </div>
         </>))}
@@ -97,8 +103,8 @@ export default function Instagram({ infoInstagram, infoPerfil, fotoPerfil, nPubl
             <Image
               src={fotoPerfil}
               alt=''
-              width={30}
-              height={100}
+              width={35}
+              height={35}
               quality={100}
               className='bg-green-500 rounded-full object-cover'
             />
