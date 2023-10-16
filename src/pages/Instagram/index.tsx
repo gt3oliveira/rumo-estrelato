@@ -9,7 +9,7 @@ import { BsArrowBarRight } from 'react-icons/bs'
 
 import { GetServerSideProps } from 'next'
 import { db } from '@/services/firebaseConnection'
-import { query, collection, orderBy, getDocs } from 'firebase/firestore'
+import { query, collection, orderBy, getDocs, where } from 'firebase/firestore'
 
 interface InstagramProps {
   infoInstagram: InfoInstagram[];
@@ -19,6 +19,7 @@ interface InstagramProps {
 }
 
 export default function Instagram({ infoInstagram, infoPerfil, fotoPerfil, nPublicacoes }: InstagramProps) {
+  
   return (
     <div className='bg-black h-[100vh] overflow-scroll'>
       <header>
@@ -76,17 +77,17 @@ export default function Instagram({ infoInstagram, infoPerfil, fotoPerfil, nPubl
           <div className='flex flex-col text-white px-2 pb-4'>
             <span className='font-bold'>Gustavo Tavares [ {item.camisa} ]</span>
             <span className='flex flex-row gap-1'>
-              Jogador profissional do 
+              Jogador profissional do
               <Link href={`/Time/${item.idCup}`}>
                 <p className='text-blue-500'>{item.instagramTime}</p>
-              </Link>            
+              </Link>
             </span>
             <span>{item.descSelecao}</span>
             <span className='flex flex-row gap-1'>
-              Fanpage 
+              Fanpage
               <Link href={`/Dashboard`}>
                 <p className='text-blue-500'>🔗gustavo.tavares</p>
-              </Link>            
+              </Link>
             </span>
             <span>{item.descOpcional}</span>
           </div>
@@ -97,7 +98,7 @@ export default function Instagram({ infoInstagram, infoPerfil, fotoPerfil, nPubl
       <hr className='w-[90vw] m-auto mb-2' />
 
       {/* == PUBLICAÇÃO == == PUBLICAÇÃO == == PUBLICAÇÃO == == PUBLICAÇÃO == == PUBLICAÇÃO == */}
-      {infoInstagram.map(item => (
+      {infoInstagram.map((item) => (
         <div key={item.id} className='flex flex-col items-center'>
           <div className='flex flex-row w-full px-4 py-2 gap-4'>
             <Image
@@ -113,7 +114,7 @@ export default function Instagram({ infoInstagram, infoPerfil, fotoPerfil, nPubl
               <span className='font-bold text-sm'>gustavo.player021</span>
               <span className='text-sm'>{item.localizacao}</span>
             </div>
-          </div>
+          </div>          
           <div>
             <Image
               src={item.imgURL}
@@ -167,7 +168,7 @@ type InfoPerfil = {
 export const getServerSideProps: GetServerSideProps = async () => {
   const perfilRef = query(collection(db, 'perfilInstagram'))
   const snapshotPerfil = await getDocs(perfilRef)
-  const instagramRef = query(collection(db, 'instagram'), orderBy("created", 'desc'))
+  const instagramRef = query(collection(db, 'instagram'), orderBy("created", 'desc'), orderBy("indice", 'asc'))
   const snapshotInstagram = await getDocs(instagramRef)
   let nPublicacoes = 0
   let fotoPerfil = ''
@@ -175,17 +176,17 @@ export const getServerSideProps: GetServerSideProps = async () => {
   let perfil: InfoPerfil[] = []
   snapshotPerfil.forEach(doc => {
     fotoPerfil = doc.data().foto,
-    perfil.push({
-      id: doc.id,
-      idCup: doc.data().idCup,
-      camisa: doc.data().camisa,
-      descOpcional: doc.data().descOpcional,
-      descSelecao: doc.data().descSelecao,
-      instagramTime: doc.data().instagramTime,
-      seguidores: doc.data().seguidores,
-      seguindo: doc.data().seguindo,
-      foto: doc.data().foto
-    })
+      perfil.push({
+        id: doc.id,
+        idCup: doc.data().idCup,
+        camisa: doc.data().camisa,
+        descOpcional: doc.data().descOpcional,
+        descSelecao: doc.data().descSelecao,
+        instagramTime: doc.data().instagramTime,
+        seguidores: doc.data().seguidores,
+        seguindo: doc.data().seguindo,
+        foto: doc.data().foto
+      })
   })
 
   let instagram: InfoInstagram[] = []

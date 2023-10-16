@@ -15,15 +15,16 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
 
 interface PostProps {
-  campeonatosProps: CampeonatosProps[],  
+  campeonatosProps: CampeonatosProps[],
 }
 
 export default function PostPhoto({ campeonatosProps }: PostProps) {
   const router = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [loading, setLoading] = useState(true); const [btnSalvar, setBtnSalvar] = useState("Salvar")
   const [imgURL, setImgURL] = useState('')
   const [idCup, setIdCup] = useState('');
-  const [localizacao, setLocalizacao] = useState(''); const [curtidas, setCurtidas] = useState(''); const [descricao, setDescricao] = useState(''); const [created, setCreated] = useState('');
+  const [localizacao, setLocalizacao] = useState(''); const [curtidas, setCurtidas] = useState(''); const [descricao, setDescricao] = useState(''); const [created, setCreated] = useState(''); const [indice, setIndice] = useState('')
   const [seguidores, setseguidores] = useState(''); const [seguindo, setseguindo] = useState(''); const [camisa, setcamisa] = useState(''); const [instagramTime, setinstagramTime] = useState(''); const [descSelecao, setdescSelecao] = useState(''); const [descOpcional, setdescOpcional] = useState(''); const [fotoPerfil, setFotoPerfil] = useState('');
 
   useEffect(() => {
@@ -32,6 +33,7 @@ export default function PostPhoto({ campeonatosProps }: PostProps) {
 
   function handleUpload(event: any) {
     event.preventDefault()
+    setLoading(false)
 
     const file = event.target[0]?.files[0]
     if (!file) return;
@@ -52,7 +54,7 @@ export default function PostPhoto({ campeonatosProps }: PostProps) {
           setImgURL(url)
         })
       }
-    )
+    )    
   }
 
   async function handleSavePost() {
@@ -69,9 +71,12 @@ export default function PostPhoto({ campeonatosProps }: PostProps) {
       descricao: descricao,
       datapost: dataPost,
       imgURL: imgURL,
-      created: created
+      created: created,
+      indice: indice
     })
 
+    setLoading(true)
+    setBtnSalvar('Salvo!')
     router.push('/Instagram')
   }
 
@@ -105,12 +110,12 @@ export default function PostPhoto({ campeonatosProps }: PostProps) {
 
     snapshotUpdate.forEach(doc => {
       setseguidores(doc.data().seguidores),
-      setseguindo(doc.data().seguindo),
-      setcamisa(doc.data().camisa),
-      setinstagramTime(doc.data().instagramTime),
-      setdescSelecao(doc.data().descSelecao),
-      setdescOpcional(doc.data().descOpcional),
-      setFotoPerfil(doc.data().foto)
+        setseguindo(doc.data().seguindo),
+        setcamisa(doc.data().camisa),
+        setinstagramTime(doc.data().instagramTime),
+        setdescSelecao(doc.data().descSelecao),
+        setdescOpcional(doc.data().descOpcional),
+        setFotoPerfil(doc.data().foto)
     })
   }
 
@@ -128,21 +133,29 @@ export default function PostPhoto({ campeonatosProps }: PostProps) {
 
       <div className='h-[10vh] bg-gradient-to-t from-[#111] to-[#000]' />
 
-      <main className='flex flex-col w-full px-4 overflow-scroll h-[70vh] bg-gradient-to-t from-[#696969] to-[#111]'>        
+      <main className='flex flex-col w-full px-4 overflow-scroll h-[70vh] bg-gradient-to-t from-[#696969] to-[#111]'>
         <Button onPress={() => (updateStates(), onOpen())} className='border-3 border-white bg-gray-600 text-xl text-white font-bold py-5 mt-4'>Editar cabeçalho</Button>
 
         <Input value={localizacao} onChange={(e) => setLocalizacao(e.target.value)} size='lg' label={<p className='text-[#7a7a7a]'>Localização</p>} variant='flat' className='mt-4' style={{ fontSize: 18, color: '#000' }} />
         <Input value={curtidas} onChange={(e) => setCurtidas(e.target.value)} size='lg' label={<p className='text-[#7a7a7a]'>Número de curtidas</p>} variant='flat' className='mt-4' style={{ fontSize: 18, color: '#000' }} />
         <Input value={descricao} onChange={(e) => setDescricao(e.target.value)} size='lg' label={<p className='text-[#7a7a7a]'>Descrição</p>} variant='flat' className='mt-4' style={{ fontSize: 18, color: '#000' }} />
+        <Input value={indice} onChange={(e) => setIndice(e.target.value)} size='lg' label={<p className='text-[#7a7a7a]'>Indice da foto</p>} variant='flat' className='mt-4' style={{ fontSize: 18, color: '#000' }} />
         <Input value={created} onChange={(e) => setCreated(e.target.value)} size='lg' label={<p className='text-[#7a7a7a]'>Data do Post (2023/1/10)</p>} variant='flat' className='mt-4' style={{ fontSize: 18, color: '#000' }} />
 
         <form onSubmit={handleUpload}>
           <input type="file" className='bg-gray-500 mt-4 px-2 py-4 text-white font-semibold rounded-xl w-[90vw]' />
 
-          <div className='grid justify-items-end my-4'>
-            <Button color='success' type='submit' className='text-white text-xl font-bold px-8'>Salvar</Button>
-          </div>
+          {loading && (
+            <div className='grid justify-items-end my-4'>
+              <Button color='success' type='submit' className='text-white text-xl font-bold px-8'>{btnSalvar}</Button>
+            </div>
+          )}
         </form>
+        {!loading && (
+          <div className='grid justify-items-end my-4'>
+            <Button isLoading color='success' className='text-white text-xl font-bold px-8'>Salvando</Button>
+          </div>
+        )}
       </main>
 
       {/* == EDIÇÃO DOS DADOS DO PERFIL == == EDIÇÃO DOS DADOS DO PERFIL == == EDIÇÃO DOS DADOS DO PERFIL == */}
@@ -229,7 +242,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   return {
     props: {
-      campeonatosProps: campeonatos     
+      campeonatosProps: campeonatos
     }
   }
 }
