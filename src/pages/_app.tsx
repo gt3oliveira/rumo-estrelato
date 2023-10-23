@@ -8,9 +8,9 @@ const roboto = Roboto({ subsets: ['latin'], weight: ['100', '300', '500', '900']
 export default function App({ Component, pageProps }: AppProps) {
   return(    
     <NextUIProvider className={roboto.className}>
-      <header>
-      <link rel='shortcut icon' href='/https://rumoaoestrelato.vercel.app/favicon.png' type='image/png' />
-      </header>
+      <head>
+        <link rel='shortcut icon' href='/https://rumoaoestrelato.vercel.app/favicon.ico' type='image/x-icon' />
+      </head>
       <Component {...pageProps} />
     </NextUIProvider>    
   ) 
