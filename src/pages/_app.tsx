@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return(    
     <NextUIProvider className={roboto.className}>
       <header>
-      <link rel='shortcut icon' href='/https://rumoaoestrelato.vercel.app/favicon.ico' type='image/x-icon' />
+      <link rel='shortcut icon' href='/https://rumoaoestrelato.vercel.app/favicon.png' type='image/png' />
       </header>
       <Component {...pageProps} />
     </NextUIProvider>    
