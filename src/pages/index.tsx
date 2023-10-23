@@ -15,7 +15,7 @@ export default function Home() {
     <>
       <header>
         <title>🏆 Rumo ao Estrelato 🏅</title>
-        <link rel='SHORTCUT ICON' href='public\favicon.ico' type='image/x-icon' />
+        <link rel='SHORTCUT ICON' href='https://rumoaoestrelato.vercel.app/favicon.ico' type='image/x-icon' />
       </header>
 
       <div className={styles.container}>
