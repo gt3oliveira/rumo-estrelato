@@ -11,12 +11,12 @@ export default function Home() {
   return (
     <>
       <header>
-        <title>🏆 Rumo ao Estrelato 🏅</title>        
+        <title>🏆 Rumo ao Estrelato 🏅</title>
       </header>
 
       <div className={styles.container}>
         <div className='flex flex-col justify-center items-center w-full h-[100vh] bg-gray-800 bg-opacity-80'>
-          <span className='text-4xl'>⭐⭐⭐⭐⭐</span>      
+          <span className='text-4xl'>⭐⭐⭐⭐⭐</span>
           <h1 className='text-4xl font-bold text-white'>Rumo ao Estrelato</h1>
           <Image
             src={img01}
@@ -24,13 +24,18 @@ export default function Home() {
             width={250}
             height={250}
             quality={100}
-            className='opacity-80 py-16'        
+            className='opacity-80 py-16'
           />
           {!loading && (
-            <Link onClick={() => setloading(true)} href={'/Instagram'} className='bg-green-700 w-[70vw] h-14 rounded-lg text-4xl text-center text-white font-bold border-x-4 border-y-2 border-white'>Carreira</Link>
+            <Link onClick={() => setloading(true)} href={'/Instagram'}
+            className='bg-green-700 w-[70vw] h-14 rounded-lg text-4xl pt-1.5 text-center text-white font-bold border-x-4 border-y-2 border-white'>
+              Carreira
+            </Link>
           )}
           {loading && (
-            <Button isLoading className='bg-green-700 w-[70vw] h-14 rounded-lg text-4xl text-center text-white font-bold border-x-4 border-y-2 border-white'>Carregando</Button>
+            <Button isLoading className='bg-green-700 w-[70vw] h-14 rounded-lg text-4xl text-center text-white font-bold border-x-4 border-y-2 border-white'>
+              Carregando
+            </Button>
           )}
         </div>
       </div>

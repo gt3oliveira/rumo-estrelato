@@ -43,7 +43,7 @@ export default function Carreira({ infoCups }: CarreiraProps) {
                 quality={100}
                 className='object-cover'
               />
-            </Link>
+            </Link>            
           ))}
         </div>
         {Loading && (divLoading)}
