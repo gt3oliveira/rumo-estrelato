@@ -168,7 +168,7 @@ export default function Individuais({ worldBest, europaBest, sulamericanoBest }:
         <FaArrowLeft size={28} />
       </Link>
 
-      <Link href={'/Trofeus'} className='absolute top-[175px] right-12 text-white'>
+      <Link href={'/Trofeus'} className='absolute z-20 top-[175px] right-12 text-white'>
         <FaAngleRight size={28} />
       </Link>
 

@@ -54,7 +54,7 @@ export default function PostPhoto({ campeonatosProps }: PostProps) {
           setImgURL(url)
         })
       }
-    )    
+    )
   }
 
   async function handleSavePost() {
@@ -147,13 +147,13 @@ export default function PostPhoto({ campeonatosProps }: PostProps) {
 
           {loading && (
             <div className='grid justify-items-end my-4'>
-              <Button color='success' type='submit' className='text-white text-xl font-bold px-8'>{btnSalvar}</Button>
+              <Button color='success' type='submit' className='text-white text-xl font-bold px-16'>{btnSalvar}</Button>
             </div>
           )}
         </form>
         {!loading && (
           <div className='grid justify-items-end my-4'>
-            <Button isLoading color='success' className='text-white text-xl font-bold px-8'>Salvando</Button>
+            <Button isLoading color='success' className='text-white text-xl font-bold px-9'>Salvando</Button>
           </div>
         )}
       </main>
@@ -217,7 +217,7 @@ export default function PostPhoto({ campeonatosProps }: PostProps) {
         </ModalContent>
       </Modal>
 
-    </div>
+    </div >
   )
 }
 

@@ -71,7 +71,7 @@ export default function MeusTrofeus({ infoTitulos }: MeusTrofeusProps) {
         <FaArrowLeft size={28} />
       </Link>
 
-      <Link href={'/Individuais'} className='absolute top-[155px] left-10 text-white'>
+      <Link href={'/Individuais'} className='absolute z-20 top-[155px] left-10 text-white'>
         <FaAngleLeft size={28} />
       </Link>
 

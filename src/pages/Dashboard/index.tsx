@@ -15,8 +15,11 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ imgPlayer }: DashboardProps) {
-  const [loading, setLoading] = useState(false)  
-
+  const [galeria, setGaleria] = useState(false); const [carreira, setCarreira] = useState(false); const [configuracoes, setConfiguracoes] = useState(false); const [Instagram, setInstagram] = useState(false); const [Patrocinador, setPatrocinador] = useState(false);
+  
+  function btnLoading(){
+    return <Button isLoading className='bg-gray-500 mx-4 rounded-lg shadow-md shadow-black active:translate-y-1 active:shadow-none py-6 mb-4 text-2xl text-white text-center font-medium'></Button>
+  }
   return (
     <>
       <header>
@@ -35,13 +38,26 @@ export default function Dashboard({ imgPlayer }: DashboardProps) {
           className='mx-auto mb-4 shadow-lg shadow-black'
         />
 
-        <ButtonLink linkTo='/Individuais' label='🏆 Galeria de troféus' />
-        <ButtonLink linkTo='/Carreira' label='⚽ Carreira' />
-        <ButtonLink linkTo='/Configuracoes' label='⚙ Configurações' />        
-        <Link href={'/Instagram'} className='flex flex-row items-center justify-center gap-2 bg-gray-500 mx-4 rounded-lg shadow-md shadow-black active:translate-y-1 active:shadow-none py-2 mb-4 text-2xl text-white text-center font-medium'>
-          <FaInstagram size={28} />
-          <span>Instagram</span>
-        </Link>
+        {!galeria && (<ButtonLink state={() => setGaleria(true)} linkTo='/Individuais' label='🏆 Galeria de troféus' />)}
+        {galeria && ((btnLoading()))}   
+
+        {!carreira && (<ButtonLink state={() => setCarreira(true)} linkTo='/Carreira' label='⚽ Carreira' />)}
+        {carreira && (btnLoading())}
+        
+        {!Patrocinador && (<ButtonLink state={() => setPatrocinador(true)} linkTo='/Patrocinador' label='💱 Patrocinador' />)}
+        {Patrocinador && (btnLoading())}
+
+        {!configuracoes && (<ButtonLink state={() => setConfiguracoes(true)} linkTo='/Configuracoes' label='⚙ Configurações' />)}
+        {configuracoes && (btnLoading())}
+
+        {!Instagram && (
+          <Link onClick={() => setInstagram(true)} href={'/Instagram'} className='flex flex-row items-center justify-center gap-2 bg-gradient-to-tl to-yellow-200 from-blue-500 mx-4 rounded-lg shadow-md shadow-black active:translate-y-1 active:shadow-none py-2 mb-4 text-2xl text-gray-600 text-center font-medium'>
+            <FaInstagram size={28} />
+            <span>Instagram</span>
+          </Link>
+        )}
+        {Instagram && (<Button isLoading className='flex flex-row items-center justify-center gap-2 bg-gradient-to-tl to-yellow-200 from-blue-500 mx-4 rounded-lg shadow-md shadow-black active:translate-y-1 active:shadow-none py-6 mb-4 text-2xl text-gray-600 text-center font-medium'></Button>)}
+
       </main>
     </>
   )

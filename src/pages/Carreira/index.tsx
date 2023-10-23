@@ -1,18 +1,23 @@
 import Header from '@/components/Header'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { FaArrowLeft } from 'react-icons/fa6'
 import capa from '../../../public/assets/images/capa-carreira.png'
 import Image from 'next/image'
 import { GetServerSideProps } from 'next'
 import { db } from '@/services/firebaseConnection'
 import { query, collection, orderBy, getDocs } from 'firebase/firestore'
+import { Button } from '@nextui-org/react'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 interface CarreiraProps {
   infoCups: InfoCups[]
 }
 
 export default function Carreira({ infoCups }: CarreiraProps) {
+  const [Loading, setLoading] = useState(false)
+  const divLoading = <div className='flex justify-center absolute bottom-0 left-0 bg-opacity-50 bg-black w-full h-[70vh] items-center text-4xl text-white'><span>Carregando...</span></div>
+
   return (
     <>
       <header>
@@ -29,7 +34,7 @@ export default function Carreira({ infoCups }: CarreiraProps) {
       <main className='flex flex-col w-full pt-4 px-4 overflow-scroll h-[70vh] bg-gradient-to-t from-[#696969] to-[#111]'>
         <div className=' flex flex-wrap justify-around'>
           {infoCups.map(item => (
-            <Link href={`Time/${item.id}`} key={item.id} className='p-4 mb-4 active:scale-95 bg-gradient-to-tl from-[#393939] to-[#b3b3b3] border-2 border-[#A3519D] w-fit rounded-full'>
+            <Link href={`Time/${item.id}`} onClick={() => setLoading(true)} key={item.id} className='p-4 mb-4 active:scale-95 bg-gradient-to-tl from-[#393939] to-[#b3b3b3] border-2 border-[#A3519D] w-fit rounded-full'>
               <Image
                 src={item.imgLogo}
                 alt={item.name}
@@ -38,9 +43,10 @@ export default function Carreira({ infoCups }: CarreiraProps) {
                 quality={100}
                 className='object-cover'
               />
-            </Link>          
+            </Link>
           ))}
         </div>
+        {Loading && (divLoading)}
       </main>
 
     </>
@@ -67,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   let idCupTimesAll: IdCups[] = []
   snapshotTimes.forEach(item => {
-    if(item.data().idCup !== igual){
+    if (item.data().idCup !== igual) {
       igual = item.data().idCup
       idCupTimesAll.push({
         id: item.data().idCup
@@ -77,9 +83,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   let campeonatos: InfoCups[] = []
   snapshotCampeonatos.forEach(doc => {
-    if(doc.data().imgLogo !== ''){
+    if (doc.data().imgLogo !== '') {
       idCupTimesAll.map(item => {
-        if(doc.id === item.id){
+        if (doc.id === item.id) {
           campeonatos.push({
             id: doc.id,
             name: doc.data().name,

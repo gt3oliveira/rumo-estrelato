@@ -9,7 +9,7 @@ import { BsArrowBarRight } from 'react-icons/bs'
 
 import { GetServerSideProps } from 'next'
 import { db } from '@/services/firebaseConnection'
-import { query, collection, orderBy, getDocs, where } from 'firebase/firestore'
+import { query, collection, orderBy, getDocs, where, deleteDoc, doc } from 'firebase/firestore'
 
 interface InstagramProps {
   infoInstagram: InfoInstagram[];

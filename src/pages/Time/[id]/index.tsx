@@ -82,7 +82,7 @@ export default function Times({ infoCup, infoTime, imgPlayer }: TimesProps) {
         <FaArrowLeft class='text-white' size={28} />
       </Link>
 
-      <Link href={'/Carreira'} className='absolute top-[155px] left-10'>
+      <Link href={'/Carreira'} className='absolute z-20 top-[155px] left-10'>
         <FaAngleLeft class='text-white' size={28} />
       </Link>
 

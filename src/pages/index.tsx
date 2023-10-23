@@ -1,16 +1,21 @@
+import { useState } from 'react'
 import Image from 'next/image'
 import { Roboto } from 'next/font/google'
 import img01 from '../../public/assets/images/img01.png'
 import Link from 'next/link'
 import styles from '@/styles/Home.module.css'
+import { Button } from '@nextui-org/react'
 
 const inter = Roboto({ subsets: ['latin'], weight: ['100', '300', '500', '900'] })
 
 export default function Home() {
+  const [loading, setloading] = useState(false)
+
   return (
     <>
       <header>
         <title>🏆 Rumo ao Estrelato 🏅</title>
+        <link rel='SHORTCUT ICON' href='public\favicon.ico' type='image/x-icon' />
       </header>
 
       <div className={styles.container}>
@@ -25,7 +30,12 @@ export default function Home() {
             quality={100}
             className='opacity-80 py-16'        
           />
-          <Link href={'/Instagram'} className='bg-green-700 w-[70vw] py-2 rounded-lg text-4xl text-center text-white font-bold border-x-4 border-y-2 border-white'>Carreira</Link>      
+          {!loading && (
+            <Link onClick={() => setloading(true)} href={'/Instagram'} className='bg-green-700 w-[70vw] h-14 rounded-lg text-4xl text-center text-white font-bold border-x-4 border-y-2 border-white'>Carreira</Link>
+          )}
+          {loading && (
+            <Button isLoading className='bg-green-700 w-[70vw] h-14 rounded-lg text-4xl text-center text-white font-bold border-x-4 border-y-2 border-white'>Carregando</Button>
+          )}
         </div>
       </div>
     </>
