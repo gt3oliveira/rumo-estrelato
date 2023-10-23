@@ -1,12 +1,9 @@
 import { useState } from 'react'
 import Image from 'next/image'
-import { Roboto } from 'next/font/google'
 import img01 from '../../public/assets/images/img01.png'
 import Link from 'next/link'
 import styles from '@/styles/Home.module.css'
 import { Button } from '@nextui-org/react'
-
-const inter = Roboto({ subsets: ['latin'], weight: ['100', '300', '500', '900'] })
 
 export default function Home() {
   const [loading, setloading] = useState(false)
@@ -14,8 +11,7 @@ export default function Home() {
   return (
     <>
       <header>
-        <title>🏆 Rumo ao Estrelato 🏅</title>
-        <link rel='shortcut icon' href='/https://rumoaoestrelato.vercel.app/favicon.ico' type='image/x-icon' />
+        <title>🏆 Rumo ao Estrelato 🏅</title>        
       </header>
 
       <div className={styles.container}>
