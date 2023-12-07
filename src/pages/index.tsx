@@ -27,7 +27,7 @@ export default function Home() {
             className='opacity-80 py-16'
           />
           {!loading && (
-            <Link onClick={() => setloading(true)} href={'/Instagram'}
+            <Link onClick={() => setloading(true)} href={'/Dashboard'}
             className='bg-green-700 w-[70vw] h-14 rounded-lg text-4xl pt-1.5 text-center text-white font-bold border-x-4 border-y-2 border-white'>
               Carreira
             </Link>

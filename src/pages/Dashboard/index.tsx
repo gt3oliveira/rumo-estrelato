@@ -44,8 +44,8 @@ export default function Dashboard({ imgPlayer }: DashboardProps) {
         {!carreira && (<ButtonLink state={() => setCarreira(true)} linkTo='/Carreira' label='⚽ Carreira' />)}
         {carreira && (btnLoading())}
         
-        {!Patrocinador && (<ButtonLink state={() => setPatrocinador(true)} linkTo='/Patrocinador' label='💱 Patrocinador' />)}
-        {Patrocinador && (btnLoading())}
+        {/* {!Patrocinador && (<ButtonLink state={() => setPatrocinador(true)} linkTo='/Patrocinador' label='💱 Patrocinador' />)}
+        {Patrocinador && (btnLoading())} */}
 
         {!configuracoes && (<ButtonLink state={() => setConfiguracoes(true)} linkTo='/Configuracoes' label='⚙ Configurações' />)}
         {configuracoes && (btnLoading())}
